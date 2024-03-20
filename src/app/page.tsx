@@ -7,7 +7,7 @@ const poppins = Poppins({ subsets: ["latin"], weight: ["600"] });
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-background">
+    <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <div className="space-y-6 text-center select-none">
         <h1
           className={cn("text-8xl font-bold text-primary", poppins.className)}
