@@ -2,32 +2,71 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background: 277 100% 95%;
+  --foreground: 277 5% 5%;
+  --card: 277 50% 90%;
+  --card-foreground: 277 5% 10%;
+  --popover: 277 100% 95%;
+  --popover-foreground: 277 100% 5%;
+  --primary: 277 84% 44%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 277 30% 70%;
+  --secondary-foreground: 0 0% 0%;
+  --muted: 239 30% 85%;
+  --muted-foreground: 277 5% 35%;
+  --accent: 239 30% 80%;
+  --accent-foreground: 277 5% 10%;
+  --destructive: 5 98% 50%;
+  --destructive-foreground: 277 5% 90%;
+  --success: 155 65.2% 35.3%;
+  --warning: 52 80.2% 50.3%;
+  --border: 277 30% 50%;
+  --input: 277 30% 18%;
+  --ring: 277 84% 44%;
+  --radius: 1rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+.dark {
+  --background: 277 50% 5%;
+  --foreground: 277 5% 90%;
+  --card: 277 50% 5%;
+  --card-foreground: 277 5% 90%;
+  --popover: 277 50% 5%;
+  --popover-foreground: 277 5% 90%;
+  --primary: 277 84% 44%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 277 30% 10%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 239 30% 15%;
+  --muted-foreground: 277 5% 60%;
+  --accent: 239 30% 15%;
+  --accent-foreground: 277 5% 90%;
+  --destructive: 5 100% 40%;
+  --destructive-foreground: 277 5% 90%;
+  --success: 155 75.2% 45.3%;
+  --warning: 52 80.2% 50.3%;
+  --border: 277 30% 18%;
+  --input: 277 30% 18%;
+  --ring: 277 84% 44%;
+  --radius: 1rem;
+}
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+html,
+body,
+:root {
+  height: 100%;
 }
