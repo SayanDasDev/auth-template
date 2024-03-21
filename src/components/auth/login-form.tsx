@@ -21,12 +21,14 @@ import { FromSuccess } from "../shared/form-succes";
 import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
 import { LoadingDots } from "../shared/loading-dots";
+import { FormWarning } from "../shared/form-warning";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
 
-  const [error, setError] = useState<string | undefined>(""); 
-  const [success, setSuccess] = useState<string | undefined>(""); 
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [warning, setWarning] = useState<string | undefined>("");
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -37,24 +39,26 @@ export const LoginForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-
     setError("");
     setSuccess("");
 
     startTransition(() => {
-      login(values)
-        .then((data) => {
-          if (data?.error) {
-            form.reset();
-            setError(data.error);
-          }
+      login(values).then((data) => {
+        if (data?.error) {
+          form.reset();
+          setError(data.error);
+        }
 
-          if (data?.success) {
-            form.reset();
-            setSuccess(data.success);
-          }
-          }
-        )
+        if (data?.success) {
+          form.reset();
+          setSuccess(data.success);
+        }
+
+        if (data?.warning) {
+          form.reset();
+          setWarning(data.warning);
+        }
+      });
     });
   };
 
@@ -106,6 +110,7 @@ export const LoginForm = () => {
             />
             <FromError message={error} />
             <FromSuccess message={success} />
+            <FormWarning message={warning} />
             <Button
               disabled={isPending}
               className="w-full h-10 !mt-6 text-md rounded-sm"
