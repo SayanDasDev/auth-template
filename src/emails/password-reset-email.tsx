@@ -20,13 +20,13 @@ import * as React from "react";
 interface PasswordResetEmailProps {
   appName: string;
   appImageUrl: string;
-  passwordResetEmailLink: string;
+  passwordResetLink: string;
   supportEmail: string;
 }
 
 export const PasswordResetEmail = ({
   appName,
-  passwordResetEmailLink,
+  passwordResetLink,
   appImageUrl,
   supportEmail,
 }: PasswordResetEmailProps) => {
@@ -49,7 +49,7 @@ export const PasswordResetEmail = ({
               />
             </Section>
             <Heading className="text-black text-[24px] font-normal text-center p-0 my-[30px] mx-0">
-              Verify your email address!
+              Reset Your Password!
             </Heading>
             <Text className="text-black text-[14px] leading-[24px]">
               Dear user,
@@ -65,13 +65,13 @@ export const PasswordResetEmail = ({
             <Section className="text-center mt-[32px] mb-[32px]">
               <Button
                 className="bg-[#000000] rounded-lg text-white text-[12px] font-semibold no-underline text-center px-5 py-3"
-                href={passwordResetEmailLink}
+                href={passwordResetLink}
               >
-                Reset your password
+                Reset Your Password
               </Button>
             </Section>
             <Text className="text-black text-[14px] leading-[24px]">
-              This link will expire in <strong>10 minutes</strong> for security
+              This link will expire in <strong>5 minutes</strong> for security
               reasons.
             </Text>
             <Text className="text-black text-[14px] leading-[24px]">
@@ -79,10 +79,10 @@ export const PasswordResetEmail = ({
               following URL into your web browser:
             </Text>
             <Link
-              href={passwordResetEmailLink}
+              href={passwordResetLink}
               className="text-blue-600 no-underline"
             >
-              {passwordResetEmailLink}
+              {passwordResetLink}
             </Link>
             <Text className="text-black text-[14px] leading-[24px]">
               Thank you for choosing <strong>{appName}</strong>.
@@ -137,8 +137,8 @@ export const PasswordResetEmail = ({
                 </Column>
               </Row>
               <Text className="text-center text-[#706a7b]">
-                © 2022 {appName}, All Rights Reserved <br />
-                171/9 Madhyapara, Khardaha, Kolkata, West Bengal 700117
+                &copy; 2022 {appName}, All Rights Reserved <br />
+                Made with &#9825; by SayanDasDev
               </Text>
             </Row>
           </Section>
@@ -150,7 +150,7 @@ export const PasswordResetEmail = ({
 
 PasswordResetEmail.PreviewProps = {
   appName: "Auth-T",
-  passwordResetEmailLink: "https://localhost:3000/verify-email",
+  passwordResetLink: "https://localhost:3000/verify-email",
   supportEmail: "mesayan19@gmail.com",
   appImageUrl:
     "https://raw.githubusercontent.com/SayanDasDev/images/main/auth-template.png",

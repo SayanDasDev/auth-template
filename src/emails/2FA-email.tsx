@@ -16,19 +16,19 @@ import {
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
 
-interface PasswordResetEmailProps {
+interface TwoFAEmailProps {
   appName: string;
   appImageUrl: string;
   twoFACode: string;
   supportEmail: string;
 }
 
-export const PasswordResetEmail = ({
+export const TwoFAEmail = ({
   appName,
   twoFACode,
   appImageUrl,
   supportEmail,
-}: PasswordResetEmailProps) => {
+}: TwoFAEmailProps) => {
   const previewText = `Securiy Code for your ${appName} account`;
 
   return (
@@ -153,8 +153,8 @@ export const PasswordResetEmail = ({
                 </Column>
               </Row>
               <Text className="text-center text-[#706a7b]">
-                © 2022 {appName}, All Rights Reserved <br />
-                171/9 Madhyapara, Khardaha, Kolkata, West Bengal 700117
+                &copy; 2022 {appName}, All Rights Reserved <br />
+                Made with &#9825; by SayanDasDev
               </Text>
             </Row>
           </Section>
@@ -164,12 +164,12 @@ export const PasswordResetEmail = ({
   );
 };
 
-PasswordResetEmail.PreviewProps = {
+TwoFAEmail.PreviewProps = {
   appName: "Auth-T",
   twoFACode: "123456",
   supportEmail: "mesayan19@gmail.com",
   appImageUrl:
     "https://raw.githubusercontent.com/SayanDasDev/images/main/auth-template.png",
-} as PasswordResetEmailProps;
+} as TwoFAEmailProps;
 
-export default PasswordResetEmail;
+export default TwoFAEmail;

@@ -140,8 +140,8 @@ export const VerificationEmail = ({
                 </Column>
               </Row>
               <Text className="text-center text-[#706a7b]">
-                © 2022 {appName}, All Rights Reserved <br />
-                171/9 Madhyapara, Khardaha, Kolkata, West Bengal 700117
+                &copy; 2022 {appName}, All Rights Reserved <br />
+                Made with &#9825; by SayanDasDev
               </Text>
             </Row>
           </Section>
