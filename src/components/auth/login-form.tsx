@@ -24,9 +24,14 @@ import { LoadingDots } from "../shared/loading-dots";
 import { FormWarning } from "../shared/form-warning";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { OTPInput } from "input-otp";
+import FakeDash from "../ui/fake-dash";
+import Slot from "../ui/otp-input-slot";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
+
+  const [twoFA, setTwoFA] = useState(false);
 
   // this part does not make sense but works
   const searchParams = useSearchParams();
@@ -74,56 +79,100 @@ export const LoginForm = () => {
   return (
     <>
       <CardWrapper
-        headerLabel="Welcome back!"
+        headerLabel={twoFA ? "2-Factor Authentication" : "Welcome back!"}
         backButtonLabel="Don't have an account yet?"
         backButtonHref="/register"
-        showSocial
+        showSocial={!twoFA}
+        showBackButton={!twoFA}
       >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => {
-                return (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isPending}
-                        placeholder="auth@ex.com"
+            {twoFA && (
+              <>
+                <p className="text-center text-border">Enter the 2FA code sent to&nbsp;
+                {form.getValues("email") ? <span className="text-primary font-semibold">{form.getValues("email")}</span> : "your email"}
+                .
+                </p>
+                <FormField
+                  control={form.control}
+                  name="code"
+                  render={({ field }) => {
+                    return (
+                      <OTPInput
                         {...field}
+                        maxLength={6}
+                        containerClassName="group flex justify-center !mb-3 items-center has-[:disabled]:opacity-30"
+                        render={({ slots }) => (
+                          <>
+                            <div className="flex bg-background rounded-md">
+                              {slots.slice(0, 3).map((slot, idx) => (
+                                <Slot key={idx} {...slot} />
+                              ))}
+                            </div>
+
+                            <FakeDash />
+
+                            <div className="flex bg-background rounded-md">
+                              {slots.slice(3).map((slot, idx) => (
+                                <Slot key={idx} {...slot} />
+                              ))}
+                            </div>
+                          </>
+                        )}
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                );
-              }}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <PasswordInput
-                      disabled={isPending}
-                      placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
-                      {...field}
-                    />
-                  </FormControl>
-                  <div className="flex-grow flex justify-end">
-                    <Button asChild variant={"link"} size={"sm"}>
-                      <Link href={`/auth/reset-password`}>
-                        Forgot Password?
-                      </Link>
-                    </Button>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    );
+                  }}
+                />
+              </>
+            )}
+
+            {!twoFA && (
+              <>
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            disabled={isPending}
+                            placeholder="auth@ex.com"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <PasswordInput
+                          disabled={isPending}
+                          placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                          {...field}
+                        />
+                      </FormControl>
+                      <div className="flex-grow flex justify-end">
+                        <Button asChild variant={"link"} size={"sm"}>
+                          <Link href={`/auth/reset-password`}>
+                            Forgot Password?
+                          </Link>
+                        </Button>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </>
+            )}
             <FormError message={error || urlError} />
             <FormSuccess message={success} />
             <FormWarning message={warning} />
@@ -131,7 +180,9 @@ export const LoginForm = () => {
               disabled={isPending}
               className="w-full h-10 !mt-6 text-md rounded-sm"
             >
-              {isPending ? <LoadingDots /> : "Sign In"}
+              {isPending ? <LoadingDots /> : (
+                twoFA ? "Confirm" : "Login"
+              )}
             </Button>
           </form>
         </Form>
