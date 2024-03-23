@@ -56,22 +56,23 @@ export const LoginForm = () => {
     setError("");
     setSuccess("");
     setWarning("");
-    
+
     startTransition(() => {
       login(values).then((data) => {
         if (data?.error) {
-          form.reset();
           setError(data.error);
         }
 
         if (data?.success) {
-          form.reset();
           setSuccess(data.success);
         }
 
         if (data?.warning) {
-          form.reset();
           setWarning(data.warning);
+        }
+
+        if (data?.twoFactor) {
+          setTwoFA(true);
         }
       });
     });
@@ -90,38 +91,59 @@ export const LoginForm = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             {twoFA && (
               <>
-                <p className="text-center text-border">Enter the 2FA code sent to&nbsp;
-                {form.getValues("email") ? <span className="text-primary font-semibold">{form.getValues("email")}</span> : "your email"}
-                .
+                <p className="text-center text-border">
+                  Enter the 2FA code sent to&nbsp;
+                  {form.getValues("email") ? (
+                    <span className="text-primary font-semibold">
+                      {form.getValues("email")}
+                    </span>
+                  ) : (
+                    "your email"
+                  )}
+                  .
                 </p>
                 <FormField
                   control={form.control}
                   name="code"
                   render={({ field }) => {
                     return (
-                      <OTPInput
-                        {...field}
-                        maxLength={6}
-                        onComplete={form.handleSubmit(onSubmit)}
-                        containerClassName="group flex justify-center !mb-3 items-center has-[:disabled]:opacity-30"
-                        render={({ slots }) => (
-                          <>
-                            <div className="flex bg-background rounded-md">
-                              {slots.slice(0, 3).map((slot, idx) => (
-                                <Slot key={idx} {...slot} />
-                              ))}
-                            </div>
+                      <FormItem>
+                        <FormControl>
+                          <OTPInput
+                            {...field}
+                            maxLength={6}
+                            // onComplete={form.handleSubmit(onSubmit)}
+                            containerClassName="group flex justify-center !mb-3 items-center has-[:disabled]:opacity-30"
+                            render={({ slots }) => (
+                              <>
+                                <div className="flex bg-background rounded-md">
+                                  {slots.slice(0, 3).map((slot, idx) => (
+                                    <Slot key={idx} {...slot} />
+                                  ))}
+                                </div>
 
-                            <FakeDash />
+                                <FakeDash />
 
-                            <div className="flex bg-background rounded-md">
-                              {slots.slice(3).map((slot, idx) => (
-                                <Slot key={idx} {...slot} />
-                              ))}
-                            </div>
-                          </>
-                        )}
-                      />
+                                <div className="flex bg-background rounded-md">
+                                  {slots.slice(3).map((slot, idx) => (
+                                    <Slot key={idx} {...slot} />
+                                  ))}
+                                </div>
+                              </>
+                            )}
+                          />
+                        </FormControl>
+                        <div className="flex-grow flex justify-end">
+                          <Button
+                            type="button"
+                            className="hover:no-underline"
+                            variant={"link"}
+                            size={"sm"}
+                          >
+                            Resend Code
+                          </Button>
+                        </div>
+                      </FormItem>
                     );
                   }}
                 />
@@ -182,9 +204,7 @@ export const LoginForm = () => {
               disabled={isPending}
               className="w-full h-10 !mt-6 text-md rounded-sm"
             >
-              {isPending ? <LoadingDots /> : (
-                twoFA ? "Confirm" : "Login"
-              )}
+              {isPending ? <LoadingDots /> : twoFA ? "Confirm" : "Login"}
             </Button>
           </form>
         </Form>
