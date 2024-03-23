@@ -55,7 +55,8 @@ export const LoginForm = () => {
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
-
+    setWarning("");
+    
     startTransition(() => {
       login(values).then((data) => {
         if (data?.error) {
@@ -101,6 +102,7 @@ export const LoginForm = () => {
                       <OTPInput
                         {...field}
                         maxLength={6}
+                        onComplete={form.handleSubmit(onSubmit)}
                         containerClassName="group flex justify-center !mb-3 items-center has-[:disabled]:opacity-30"
                         render={({ slots }) => (
                           <>

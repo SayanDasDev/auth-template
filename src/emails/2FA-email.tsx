@@ -15,6 +15,7 @@ import {
   Markdown,
 } from "@react-email/components";
 import { Tailwind } from "@react-email/tailwind";
+import React from "react";
 
 interface TwoFAEmailProps {
   appName: string;
@@ -30,6 +31,8 @@ export const TwoFAEmail = ({
   supportEmail,
 }: TwoFAEmailProps) => {
   const previewText = `Securiy Code for your ${appName} account`;
+
+  const codeParts = twoFACode.match(/.{1,3}/g) || [];
 
   return (
     <Html>
@@ -65,27 +68,36 @@ export const TwoFAEmail = ({
               <strong>If you requested this login</strong>, please use the
               following code to complete the login process:
             </Text>
-            <Section className="text-center bg-[#FFF1F3] rounded-md leading-4 py-[16px] mt-[32px] mb-[32px]">
-              <Text className="tracking-[0.75rem] text-[32px] text-[#FF2A6C]">
-                <strong>{twoFACode}</strong>
-              </Text>
+            <Section className="text-center bg-[#FFF1F3] rounded-md leading-4 select-none py-[16px] mt-[32px] mb-[32px]">
+              {codeParts.map((part, index) => (
+                <React.Fragment key={index}>
+                  <Text className="tracking-[0.75rem] inline-block text-[32px] text-[#FF2A6C]">
+                    <strong>{part}</strong>
+                  </Text>
+                  {index < codeParts.length - 1 && (
+                    <Text className="tracking-[0.75rem] text-[32px] inline-block">
+                      <strong>-</strong>
+                    </Text>
+                  )}
+                </React.Fragment>
+              ))}
             </Section>
             <Text className="text-black text-[14px] leading-[24px] mb-2">
-              <strong>If you did NOT request this login:</strong>
+              <strong>If you did not request this login:</strong>
               <Markdown
                 markdownContainerStyles={{
                   fontSize: "14px",
                 }}
                 markdownCustomStyles={{
-                  ul: {marginTop: "4px"},
+                  ul: { marginTop: "4px" },
                 }}
               >
-                - **DO NOT** enter any codes. Your account may be compromised.&#13;
-                - We recommend immediately changing your password using a secure
-                device you recognize. You can do this by logging in to your
-                account settings on a trusted device. &#13; - Consider enabling
-                a stronger 2FA method, like an authenticator app, for increased
-                security.
+                - **DO NOT** enter any codes. Your account may be
+                compromised.&#13; - We recommend immediately changing your
+                password using a secure device you recognize. You can do this by
+                logging in to your account settings on a trusted device. &#13; -
+                Consider enabling a stronger 2FA method, like an authenticator
+                app, for increased security.
               </Markdown>
             </Text>
             <Text className="text-black text-[14px] leading-[24px] mb-2">
@@ -95,12 +107,12 @@ export const TwoFAEmail = ({
                   fontSize: "14px",
                 }}
                 markdownCustomStyles={{
-                  ul: {marginTop: "4px"},
+                  ul: { marginTop: "4px" },
                 }}
               >
-                - This 2FA code is only valid for **10 minutes**.&#13;
-                - Never share your 2FA code with anyone. &#13; 
-                - If you continue to experience issues logging in, contact our support team.
+                - This 2FA code is only valid for **5 minutes**.&#13; - Never
+                share your 2FA code with anyone. &#13; - If you continue to
+                experience issues logging in, contact our support team.
               </Markdown>
             </Text>
             <Text className="text-black text-[14px] leading-[24px]">
@@ -166,7 +178,7 @@ export const TwoFAEmail = ({
 
 TwoFAEmail.PreviewProps = {
   appName: "Auth-T",
-  twoFACode: "123456",
+  twoFACode: "1234567",
   supportEmail: "mesayan19@gmail.com",
   appImageUrl:
     "https://raw.githubusercontent.com/SayanDasDev/images/main/auth-template.png",
