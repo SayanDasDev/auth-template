@@ -30,7 +30,7 @@ export const newPassword = async (
   const { password } = validatedFields.data;
 
   const isSamePassword = await bcrypt.compare(password, existingUser.password);
-  if(isSamePassword) return { warning: "New password should not be the same as last password!"};
+  if(isSamePassword) return { warning: "Please enter a new password"};
 
   const hashedPassword = await bcrypt.hash(password, 10);
 

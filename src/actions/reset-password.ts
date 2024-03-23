@@ -25,6 +25,9 @@ export const resetPassword = async (values: z.infer<typeof ResetPasswordSchema>)
     return { error: "Password change not allowed for social media accounts."}
   }
 
+  if (!existingUser.emailVerified) return { warning: "Email not verified!"};
+
+
   const existingToken = await getPasswordResetTokenbyEmail(email);
   if(existingToken){
     const hasExpired = new Date(existingToken.expires) < new Date();

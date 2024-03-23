@@ -86,6 +86,7 @@ export const NewPasswordForm = () => {
                     <PasswordInput
                       disabled={isPending}
                       placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                      autoComplete="off"
                       {...field}
                     />
                   </FormControl>
@@ -103,6 +104,7 @@ export const NewPasswordForm = () => {
                     <PasswordInput
                       disabled={isPending}
                       placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+                      autoComplete="off"
                       {...field}
                     />
                   </FormControl>
