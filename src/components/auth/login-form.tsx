@@ -27,6 +27,7 @@ import { useSearchParams } from "next/navigation";
 import { OTPInput } from "input-otp";
 import FakeDash from "../ui/fake-dash";
 import Slot from "../ui/otp-input-slot";
+import { resendCode } from "@/actions/resend-2FA-code";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -52,29 +53,68 @@ export const LoginForm = () => {
     },
   });
 
+  const [resendTimeout, setResendTimeout] = useState(0);
+
+  const handleResendCode = () => {
+    setResendTimeout(60);
+
+    resendCode(form.getValues("email"))
+      .then((data) => {
+        if (data?.error) {
+          setSuccess("")
+          setWarning("")
+          setError(data.error);
+        }
+        
+        if (data?.success) {
+          setError("");
+          setWarning("");
+          setSuccess(data.success);
+        }
+      })
+      .catch(() => {
+        setError("Somthing went wrong!");
+      });
+
+    const timer = setInterval(() => {
+      setResendTimeout((prevTimeout) => {
+        if (prevTimeout <= 1) {
+          clearInterval(timer);
+          return 0;
+        } else {
+          return prevTimeout - 1;
+        }
+      });
+    }, 1000);
+  };
+
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
     setWarning("");
 
     startTransition(() => {
-      login(values).then((data) => {
-        if (data?.error) {
-          setError(data.error);
-        }
+      login(values)
+        .then((data) => {
+          if (data?.error) {
+            setError(data.error);
+          }
 
-        if (data?.success) {
-          setSuccess(data.success);
-        }
+          if (data?.success) {
+            setSuccess(data.success);
+          }
 
-        if (data?.warning) {
-          setWarning(data.warning);
-        }
+          if (data?.warning) {
+            setWarning(data.warning);
+          }
 
-        if (data?.twoFactor) {
-          setTwoFA(true);
-        }
-      });
+          if (data?.twoFactor) {
+            setTwoFA(true);
+          }
+        })
+        .catch(() => {
+          setError("Something went wrong!");
+        });
     });
   };
 
@@ -112,7 +152,7 @@ export const LoginForm = () => {
                           <OTPInput
                             {...field}
                             maxLength={6}
-                            // onComplete={form.handleSubmit(onSubmit)}
+                            onComplete={form.handleSubmit(onSubmit)}
                             containerClassName="group flex justify-center !mb-3 items-center has-[:disabled]:opacity-30"
                             render={({ slots }) => (
                               <>
@@ -133,12 +173,21 @@ export const LoginForm = () => {
                             )}
                           />
                         </FormControl>
-                        <div className="flex-grow flex justify-end">
+                        <div className="flex-grow flex gap-0 flex-col items-center">
+                          <p className="text-xs text-muted-foreground">
+                            {resendTimeout > 0
+                              ? `Resend code in 00:${
+                                  resendTimeout < 10 ? "0" : ""
+                                }${resendTimeout}`
+                              : "Didn't receive the code?"}
+                          </p>
                           <Button
                             type="button"
-                            className="hover:no-underline"
+                            className="hover:no-underline h-6"
                             variant={"link"}
                             size={"sm"}
+                            onClick={handleResendCode}
+                            disabled={resendTimeout > 0}
                           >
                             Resend Code
                           </Button>
