@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={cn("bg-background",dm.className)}>{children}</body>
+      <body className={dm.className}>{children}</body>
     </html>
   );
 }

@@ -16,8 +16,8 @@ import {
 import { Input } from "../ui/input";
 import { PasswordInput } from "../ui/password-input";
 import { Button } from "../ui/button";
-import { FromError } from "../shared/form-error";
-import { FromSuccess } from "../shared/form-succes";
+import { FormError } from "../shared/form-error";
+import { FormSuccess } from "../shared/form-succes";
 import { useState, useTransition } from "react";
 import { LoadingDots } from "../shared/loading-dots";
 import { register } from "@/actions/register";
@@ -135,8 +135,8 @@ export const RegisterForm = () => {
                 </FormItem>
               )}
             />
-            <FromError message={error} />
-            <FromSuccess message={success} />
+            <FormError message={error} />
+            <FormSuccess message={success} />
             <Button
               disabled={isPending}
               className="w-full h-10 !mt-6 text-md rounded-sm"

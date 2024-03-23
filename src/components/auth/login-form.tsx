@@ -16,8 +16,8 @@ import {
 import { Input } from "../ui/input";
 import { PasswordInput } from "../ui/password-input";
 import { Button } from "../ui/button";
-import { FromError } from "../shared/form-error";
-import { FromSuccess } from "../shared/form-succes";
+import { FormError } from "../shared/form-error";
+import { FormSuccess } from "../shared/form-succes";
 import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
 import { LoadingDots } from "../shared/loading-dots";
@@ -108,8 +108,8 @@ export const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <FromError message={error} />
-            <FromSuccess message={success} />
+            <FormError message={error} />
+            <FormSuccess message={success} />
             <FormWarning message={warning} />
             <Button
               disabled={isPending}

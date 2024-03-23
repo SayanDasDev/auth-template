@@ -10,7 +10,7 @@ export const sendVerificationEmail = async (
   const confirmLink = `http://localhost:3000/auth/new-verification?token=${token}`;
 
   await resend.emails.send({
-    from: "auth-template@sayandas.me",
+    from: "no-reply-auth-template@sayandas.me",
     to: email,
     subject: "Auth-Template: Verify Your Email",
     react: VerificationEmail({
