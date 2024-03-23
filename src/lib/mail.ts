@@ -3,7 +3,7 @@ import PasswordResetEmail from "@/emails/password-reset-email";
 import VerificationEmail from "@/emails/verificaion-email";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_ARI_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendVerificationEmail = async (
   email: string,
