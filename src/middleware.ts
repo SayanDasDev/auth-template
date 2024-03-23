@@ -17,6 +17,12 @@ export default auth((req) => {
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  
+  // this part does not make sense but works
+  const isAccountNotLinkedRoute = nextUrl.pathname.startsWith("/api/auth/login");
+  if(isAccountNotLinkedRoute){
+    return Response.redirect(new URL("/api/auth/signin", nextUrl));
+  }
 
   if (isApiAuthRoute) {
     return;

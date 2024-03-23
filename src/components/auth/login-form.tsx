@@ -22,9 +22,18 @@ import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
 import { LoadingDots } from "../shared/loading-dots";
 import { FormWarning } from "../shared/form-warning";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
+
+  // this part does not make sense but works
+  const searchParams = useSearchParams();
+  const isRedirected = searchParams.get("callbackUrl");
+  const urlError = isRedirected
+    ? "You already have an account with this email."
+    : "";
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -104,11 +113,18 @@ export const LoginForm = () => {
                       {...field}
                     />
                   </FormControl>
+                  <div className="flex-grow flex justify-end">
+                    <Button asChild variant={"link"} size={"sm"}>
+                      <Link href={`/auth/reset-password`}>
+                        Forgot Password?
+                      </Link>
+                    </Button>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormError message={error} />
+            <FormError message={error || urlError} />
             <FormSuccess message={success} />
             <FormWarning message={warning} />
             <Button
