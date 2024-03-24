@@ -17,12 +17,23 @@ export default function ProtectedLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="h-full w-full bg-background flex flex-col items-center space-y-2 justify-center p-2">
-      <h1 className={cn("text-4xl font-bold text-primary mb-8", poppins.className)}>
-        🔐 Auth
-      </h1>
-      <Navbar />
-      {children}
-    </div>
+    <html lang="en">
+      <body className="">
+        <div className="h-full w-full bg-background flex flex-col items-center space-y-2 justify-center px-2">
+          <div className="bg-transparent h-3"></div>
+          <h1
+            className={cn(
+              "text-4xl font-bold text-primary mb-8",
+              poppins.className
+            )}
+          >
+            🔐 Auth
+          </h1>
+          <Navbar />
+          {children}
+          <div className="bg-transparent h-3"></div>
+        </div>
+      </body>
+    </html>
   );
 }
