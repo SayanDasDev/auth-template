@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useCurrrentUser } from "@/hooks/use-current-user";
 import { useSession } from "next-auth/react";
 
-export default function SettingsPage() {
+export default function AdminPage() {
 
   const user = useCurrrentUser();
   const session = useSession();

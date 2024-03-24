@@ -10,6 +10,7 @@ import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation
 declare module "@auth/core/jwt" {
   interface JWT {
     role: UserRole;
+    isTwoFacorEnabled: boolean;
   }
 }
 
@@ -67,6 +68,10 @@ export const {
         session.user.role = token.role;
       }
 
+      if(session.user) {
+        session.user.isTwoFactorEnabled = token.isTwoFacorEnabled;
+      }
+
       return session;
     },
 
@@ -76,6 +81,7 @@ export const {
       const existingUser = await getUserById(token.sub);
       if (!existingUser || !existingUser.role) return token;
       token.role = existingUser.role;
+      token.isTwoFacorEnabled = existingUser.isTwoFactorEnabled;
 
       return token;
     },
