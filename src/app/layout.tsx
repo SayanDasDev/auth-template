@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "#/auth";
+import { Toaster } from "@/components/ui/sonner";
 
 const dm = DM_Sans({ subsets: ["latin"] });
 
@@ -23,7 +24,10 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <html lang="en">
-        <body className={dm.className}>{children}</body>
+        <body className={dm.className}>
+          {children}
+          <Toaster position="top-center" />
+        </body>
       </html>
     </SessionProvider>
   );
