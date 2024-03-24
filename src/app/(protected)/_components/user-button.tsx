@@ -13,12 +13,12 @@ import Link from "next/link";
 import { cn, getShortName } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { EarthLock, LogOut, Server, Settings, User } from "lucide-react";
-import { useCurrrentUser } from "@/hooks/use-current-user";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import LogoutButton from "@/components/auth/logout-button";
 
 const UserButton = () => {
   const pathname = usePathname();
-  const user = useCurrrentUser();
+  const user = useCurrentUser();
 
   return (
     <DropdownMenu>
