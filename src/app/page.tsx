@@ -17,7 +17,7 @@ export default function Home() {
         <p className="text-xl text-foreground">
           A simple authentiction Service
         </p>
-        <LoginButton>
+        <LoginButton mode="modal">
           <Button
             className="rounded-[1rem] !mt-10"
             size={"xl"}
