@@ -156,7 +156,7 @@ export const TwoFAEmail = ({
                   align="left"
                   style={{ width: "48%", paddingLeft: "8px" }}
                 >
-                  <Link href="https://dev.sayandas.me/">
+                  <Link href="https://sayandas.co.in/">
                     <Img
                       className="w-7 h-7"
                       src={`https://raw.githubusercontent.com/SayanDasDev/images/main/portfolio-icon-email.png`}
